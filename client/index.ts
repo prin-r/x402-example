@@ -1,29 +1,24 @@
 import axios from "axios";
 import { config } from "dotenv";
-import { withPaymentInterceptor, decodeXPaymentResponse, createSigner, type Hex } from "x402-axios";
+import { createRequire } from "module";
+import type { Hex } from "x402-axios";
+
+const require = createRequire(import.meta.url);
+(globalThis as Record<string, unknown>).require = require;
 
 config();
 
-const privateKey = process.env.PRIVATE_KEY as Hex | string;
-const baseURL = process.env.RESOURCE_SERVER_URL as string; // e.g. https://example.com
-const endpointPath = process.env.ENDPOINT_PATH as string; // e.g. /weather
+const privateKey = process.env.PRIVATE_KEY as Hex | undefined;
+const baseURL = process.env.RESOURCE_SERVER_URL;
+const endpointPath = process.env.ENDPOINT_PATH;
 
-if (!baseURL || !privateKey || !endpointPath) {
+if (!privateKey || !baseURL || !endpointPath) {
   console.error("Missing required environment variables");
   process.exit(1);
 }
 
-/**
- * This example shows how to use the x402-axios package to make a request to a resource server that requires a payment.
- *
- * To run this example, you need to set the following environment variables:
- * - PRIVATE_KEY: The private key of the signer
- * - RESOURCE_SERVER_URL: The URL of the resource server
- * - ENDPOINT_PATH: The path of the endpoint to call on the resource server
- *
- */
 async function main(): Promise<void> {
-  // const signer = await createSigner("solana-devnet", privateKey); // uncomment for solana
+  const { withPaymentInterceptor, decodeXPaymentResponse, createSigner } = await import("x402-axios");
   const signer = await createSigner("base-sepolia", privateKey);
 
   const api = withPaymentInterceptor(
@@ -36,8 +31,14 @@ async function main(): Promise<void> {
   const response = await api.get(endpointPath);
   console.log(response.data);
 
-  const paymentResponse = decodeXPaymentResponse(response.headers["x-payment-response"]);
-  console.log(paymentResponse);
+  const paymentHeader = response.headers["x-payment-response"];
+  if (paymentHeader) {
+    const paymentResponse = decodeXPaymentResponse(paymentHeader);
+    console.log(paymentResponse);
+  }
 }
 
-main();
+main().catch((error) => {
+  console.error("Failed to fetch protected resource:", error);
+  process.exitCode = 1;
+});

@@ -52,8 +52,8 @@ app.use(
 app.get("/weather", (req, res) => {
   res.send({
     report: {
-      weather: "mumumuuu",
-      temperature: 99,
+      weather: "asdjfjsadfj",
+      temperature: 300,
     },
   });
 });
