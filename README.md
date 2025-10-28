@@ -14,7 +14,7 @@ AI client (axios + x402-axios)
       │ 1) GET /weather
       ▼
 Server (Express + x402-express) ── 2) 402 challenge ──► Client auto-pays
-      │                                      │
+      │                                     │
       │ 4) verify with facilitator ◄────────┘ 3) submit signed payment
       ▼
 Blockchain (Base Sepolia → USDC test tokens)
