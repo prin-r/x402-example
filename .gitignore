@@ -1,0 +1,51 @@
+# --- OS cruft (macOS) ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# --- Node / package managers ---
+**/node_modules/
+**/.pnp
+.pnp.*
+
+# --- Logs ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- TypeScript ---
+*.tsbuildinfo
+
+# --- Env files (keep examples) ---
+.env
+.env.*
+!.env.example
+
+# --- Build artifacts & temp ---
+**/dist/
+**/build/
+**/out/
+**/tmp/
+**/.tmp/
+
+# --- Coverage ---
+coverage/
+.nyc_output/
+
+# --- Tool caches ---
+.eslintcache
+**/.cache/
+**/.turbo/
+**/.vite/
+**/.parcel-cache/
+
+# --- IDE/editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
