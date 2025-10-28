@@ -20,8 +20,6 @@ app.use(
       "GET /weather": {
         // USDC amount in dollars
         price: "$0.001",
-        // network: "base" // uncomment for Base mainnet
-        // network: "solana" // uncomment for Solana mainnet
         network: "base-sepolia",
       },
       "/premium/*": {
@@ -38,8 +36,6 @@ app.use(
             },
           },
         },
-        // network: "base" // uncomment for Base mainnet
-        // network: "solana" // uncomment for Solana mainnet
         network: "base-sepolia",
       },
     },
@@ -52,8 +48,8 @@ app.use(
 app.get("/weather", (req, res) => {
   res.send({
     report: {
-      weather: "asdjfjsadfj",
-      temperature: 300,
+      weather: "The weather today is very fucking hot!",
+      temperature: 310,
     },
   });
 });
